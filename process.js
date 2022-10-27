@@ -10,7 +10,7 @@ const {PORT, NODE_ENV, AYRAT='(use script)', CITY='(use script)'} = process.env;
 console.log(PORT, NODE_ENV, AYRAT, CITY);
 
 // промисное чтение
-fsp.readFile(path.join(__dirname, 'fileToRead'),{encoding:'utf-8'}).then(res => console.log(res));
+fsp.readFile(path.join(__dirname, 'fileToRead.txt'),{encoding:'utf-8'}).then(res => console.log(res));
 
 // обёртывание асинх в промисы
 async function asyncWriteFile(folder, file, data){
