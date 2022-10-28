@@ -1,6 +1,5 @@
-const http = require('http');
-const Emitter = require('events');
-const emitter = new Emitter();
+const Application = require('./framework/Application.js');
+const app = new Application();
 
 const port = process.env.PORT || 5000;
 const Router = require('./framework/Router.js');
@@ -15,11 +14,6 @@ router.get('/posts', (req,res) => {
     res.end('you called POSTS');
 })
 
-const server =
+app.addRouter(router);
 
-server.listen(port, (err) => {
-    if (err) {
-        throw err;
-    }
-    console.log('listening on port  ' + port);
-});
+app.listen(port, ()=> {console.log(`Server listening on ${port}`)});

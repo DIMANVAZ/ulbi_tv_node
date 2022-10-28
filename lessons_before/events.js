@@ -1,10 +1,9 @@
-const Emitter = require('events');
+const Emitter = require('lessons_before/events');
 const emitter = new Emitter();
 
 // слушатели
 const foo = (...fooArgs)=> {console.log(`foo: `, ...fooArgs);}
 const bar = (...barArgs)=> {console.log(`bar: `, ...barArgs);}
-const baz = (...bazArgs)=> {console.log(`baz: `, ...bazArgs);}
 
 emitter.on('event_1', foo);
 emitter.on('event_1', ()=>console.log('Arrow Lisnr'));

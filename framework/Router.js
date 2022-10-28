@@ -14,11 +14,6 @@ module.exports = class Router{
             throw new Error(`Метод ${method} по адресу ${path} уже существует`);
         }
         endpoint[method] = handler; // назначили функцию
-
-        // при наступлении события типа [/users]:[GET] будет вызван хандлер
-        // emitter.on(`[${path}]:[${method}]`, function(req,res){
-        //     handler(req,res);
-        // })
     }
 
     // пишем оболочки-обёртки над request, чтобы чуть сократить и упростить его вызов

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "cross-env NODE_ENV=production AYRAT=SUNGAT node process.js"
+    "test": "cross-env NODE_ENV=production AYRAT=SUNGAT node lessons_before/process.js"
   },
   "author": "Ayrat",
   "license": "ISC",
