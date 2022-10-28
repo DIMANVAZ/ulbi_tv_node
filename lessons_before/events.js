@@ -1,4 +1,4 @@
-const Emitter = require('lessons_before/events');
+const Emitter = require('events');
 const emitter = new Emitter();
 
 // слушатели
