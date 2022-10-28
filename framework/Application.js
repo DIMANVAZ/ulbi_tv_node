@@ -14,28 +14,23 @@ module.exports = class Application{
 
     _createServer(){
         return http.createServer((req, res) => {
-            // let body = [];  // получаем данные из запроса
-            // req.on('data', (chunk) => {
-            //     body.push(chunk);
-            // })
-            // req.on('end', () => {
-            //     const data = JSON.parse(Buffer.concat(body).toString());
-            //     if(body){
-            //         req.body  = data; // склеив пришедшую из запроса инфу, назначаем объекту запроса тело body;
-            //     }
-            //     // эмитим и передаём в хэндлер аргументы. .emit возвращает boolean;
-            //     const emitted = this.emitter.emit(this._getRouteMask(req.url, req.method), req, res);
-            //     if(!emitted) {
-            //         res.end();
-            //     }
-            // })
+            let body = [];  // получаем данные из запроса
+            req.on('data', (chunk) => {
+                body.push(chunk);
+            })
+            req.on('end', () => {
+                const data = JSON.parse(Buffer.concat(body).toString());
+                if(body){
+                    req.body  = data; // склеив пришедшую из запроса инфу, назначаем объекту запроса тело body;
+                }
 
-            // эмитим и передаём в хэндлер аргументы. .emit возвращает boolean;
-            const emitted = this.emitter.emit(this._getRouteMask(req.url, req.method), req, res);
-            console.log('emitted', emitted, Date.now());
-            if(!emitted) {
-                res.end();
-            }
+                // эмитим и передаём в хэндлер аргументы. .emit возвращает boolean;
+                // делаем это только после события 'end'
+                const emitted = this.emitter.emit(this._getRouteMask(req.url, req.method), req, res);
+                if(!emitted) {
+                    res.end();
+                }
+            })
         })
     }
 

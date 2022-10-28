@@ -1,4 +1,6 @@
-module.exports = function(req, res, next){
+// как решить вопрос с асинхронностью ???
+// emitter эмитит раньше, чем в req назначается body
+module.exports = function(req, res){
     let chunks = [];
     req.on('data', function(chunk){
         chunks.push(chunk);
@@ -7,8 +9,6 @@ module.exports = function(req, res, next){
         const data = Buffer.concat(chunks).toString('utf-8');
         if (data){
             req.body = JSON.parse(data);
-            console.log(req.body);
-            next();
         }
     })
 }
