@@ -1,23 +1,11 @@
 const Router = require('../framework/Router.js');
 const router = new Router();
 
-const users = [
-    {id: 1, name: 'Ayrat'},
-    {id: 2, name: 'Regina'}
-]
+const {getUsers, addUser}  = require('./user-controller.js');
 
 // создадим через посредника эндпоинт
-router.get('/users', (req, res) => {
-    res.send(users); // метод send прописан в middleware
-})
+router.get('/users', getUsers);
 
-router.post('/users', (req, res) => {
-    if(req.body){
-        var newUser = req.body;
-        users.push(newUser);
-        res.send(newUser); // у req теперь есть метод body, т.к. мы его ему создали
-    }
-    else res.end('nonono');
-})
+router.post('/users', addUser);
 
 module.exports = router;

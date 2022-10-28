@@ -19,14 +19,15 @@ module.exports = class Application{
                 body.push(chunk);
             })
             req.on('end', () => {
-                const data = JSON.parse(Buffer.concat(body).toString());
-                if(body){
+                if(body.length){
+                    const data = JSON.parse(Buffer.concat(body).toString("utf-8")); // строка
                     req.body  = data; // склеив пришедшую из запроса инфу, назначаем объекту запроса тело body;
                 }
-
-                // эмитим и передаём в хэндлер аргументы. .emit возвращает boolean;
+                // Эмитим и передаём в хэндлер аргументы. .emit возвращает boolean;
                 // делаем это только после события 'end'
-                const emitted = this.emitter.emit(this._getRouteMask(req.url, req.method), req, res);
+                this.middlewares.forEach(middleware => middleware(req, res));
+
+                const emitted = this.emitter.emit(this._getRouteMask(req.pathname, req.method), req, res);
                 if(!emitted) {
                     res.end();
                 }
@@ -51,7 +52,6 @@ module.exports = class Application{
                 // Подписали на события (раньше этот кусок был в роутере).
                 // При наступлении события типа [/users]:[GET] будет вызван хандлер
                 this.emitter.on(this._getRouteMask(path, method), (req, res) => {
-                    this.middlewares.forEach(middleware => middleware(req, res));
                     handler(req, res);
                 });
             })
