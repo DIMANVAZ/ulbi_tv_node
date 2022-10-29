@@ -1,21 +1,22 @@
-const users = [
-    {id: 1, name: 'Ayrat'},
-    {id: 2, name: 'Regina'}
-]
+const ulbi_Model = require('../mongo_db/mongo.js');
 
-function getUsers(req, res){
-    console.log(req.params);
-    if (req.params.id) { // если в строке запроса прилетел id, то ищем пользователя
-        const user = users.find(user => +user.id === +req.params.id);
-        return res.send(user);
+async function getUsers(req, res){
+    let users;
+    try{
+        if(req.params.id){
+            users = await ulbi_Model.findById(req.params.id);
+        } else users = await ulbi_Model.find();
+        console.log(users);
+    } catch(err){
+        console.log(err);
     }
     res.send(users); // метод send прописан в middleware
 }
 
-function addUser(req, res){
-    const newUser = req.body; // У req теперь есть метод body, т.к. мы его ему создали
-    users.push(newUser);
-    res.send(newUser);
+async function addUser(req, res){
+    const {name='Alarm', password="Oh,no!"} = req.body;
+    await ulbi_Model.create({name,password});
+    res.send({name, password});
 }
 
 module.exports = {

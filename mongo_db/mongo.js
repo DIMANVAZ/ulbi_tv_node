@@ -1,22 +1,16 @@
-const {mongoose,Schema} = require('mongoose');
-const node_Ulbi_Schema = new Schema({
-        id:{
-            type:Number,
-            required: true
-        },
+const {mongoose} = require('mongoose');
+const node_Ulbi_Schema = new mongoose.Schema({
         name: {
             type: String,
             required: true
         },
+        password: {
+            type: String,
+            required: true
+        }
     },
     //{ collection : 'node_Ulbi_Collection' } - указываем эту опцию, если хотим писать в существующую коллекцию
 );
-const ulbi_Model = mongoose.model('ulbi_Model',node_Ulbi_Schema);
-const uri = 'mongodb+srv://telegram-db-admin:!!!!!!!!!!@clusterfornodeulbi.uuwm5vl.mongodb.net/?retryWrites=true&w=majority'
 
+module.exports = mongoose.model('ulbi_Model',node_Ulbi_Schema); // раз экспортим, то поименуем в другом файле
 
-mongoose.connect(uri, {useNewUrlParser: true}).then(res => {
-    console.log('Connected');
-    const document = new ulbi_Model({id:5, name: 'Volodya'});
-    document.save();
-});
